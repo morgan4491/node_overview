@@ -1,68 +1,154 @@
-const mathTools = {
-    num1: 15,
-    num2: 10,
-    sum: function() {
-        // return the sum of num1 and num2
-
-        const nested = () => {
-            console.log('nested', this.num1);
-            const moreNested = () => {
-                console.log('more nested', this.num2);
-            };
-
-            moreNested();
-        }
-
-        nested();
-
-        return this.num1 + this.num2;
+const nums = [10, 3, 100, 70, 8, 55, 88];
+const users = [
+    {
+        name: 'Bob',
+        age: 99,
     },
-    // sum() {                             // This sum() is the same as writing out sum: function()
-    //     return this.num1 + this.num2;
-    // },
-    difference: function() {
-        // return the difference of num1 and num2
-        return this.num1 - this.num2;
+    {
+        name: 'Jim',
+        age: 25,
+    },
+    {
+        name: 'Sarah',
+        age: 40,
     }
-};
+];
 
-const sum = mathTools.sum();
-const diff = mathTools.difference();
-
-console.log('sum', sum);
-console.log('diff', diff);
-
-
-
-
-
-
-function testOne() {
-    console.log('test one');
-}
-
-// testOne();
-
-const testTwo = num => console.log(num);
-
-testTwo(30);
+const students = [
+    {
+        name: 'Roman',
+        average: 99
+    },
+    {
+        name: 'Matt',
+        average: 80
+    },
+    {
+        name: 'Izzy',
+        average: 95
+    },
+    {
+        name: 'Kandyce',
+        average: 90
+    }
+]
 
 
+const overallAverage = students.reduce((output, studentObj, index, arr) => {
+    // If we are on the last student, return the output divided by the arr length
+    if (index === arr.length - 1) {
+        return (output + studentObj.average) / arr.length;
+    }
 
-function printName (userName) {
-    // const capitalize = str => {
-    //     return str.toUpperCase();
-    // }
+    // Otherwise, return output + the studentObj's average
+    return output + studentObj.average;
+}, 0);
 
-    // const capitalize = str => str.toUpperCase();    // Similar to the original const of 'capitalize', when using the arrow function, the return is automatically implied if you don't use the {}
+// console.log(overallAverage);
 
-    const capitalize = str => str[0].toUpperCase() + str.slice(1);
+const studentInfo = students.reduce((output, studentObj, index, arr) => {
+    output.overallAverage += studentObj.average;
+    
+    if (index === arr.length - 1) {
+        output.overallAverage = output.overallAverage / arr.length;
+    }
 
-    const capName = capitalize(userName);
+    output.studentCount = arr.length;
 
-    console.log(capName);
-}
+    return output;
 
-printName('bob');
+}, {
+    overallAverage: 0,
+    studentCount: 0
+});
 
-// To show results of these, type 'node index.js' into the terminal
+
+
+
+console.log(studentInfo);
+
+
+
+
+
+const sum = nums.reduce((output, num) => {
+    return output + num;
+}, 0);   // the '0' here sets the initial value of output
+
+// console.log(sum);
+
+
+
+
+
+
+
+
+
+
+const evenArray = nums.map((num) => {
+    if ((num % 2) === 0) {
+        return `${num} is even`
+    }   else {
+        return `${num} is odd`
+    }
+    // return num % 2;                         // the '%' symbol gives the remainder of 'num % 2' or the remainder of 'num / 2'
+});
+
+// console.log(evenArray);
+
+
+
+
+
+// nums.forEach((num, index) => {        // forEach is a 'higher order function'
+//     console.log(index);
+// });
+
+// for (const num of nums) {       // this is still useful when you want to stop looping through an array
+//     if(num > 10) {
+//         break;
+//     }
+
+//     console.log(num);
+// };
+
+
+
+
+const filteredNums = nums.filter((num) => {
+    if (num > 10) {
+        return true;
+    }
+});
+
+const filteredUsers = users.filter((userObj) => {
+    if (userObj.age > 30) {
+        return true;
+    }
+});
+
+// console.log(filteredNums);
+
+// console.log(filteredUsers);
+
+
+
+
+
+// Algorithm challeng - write a function that orders the array from lowest to highest
+const sorted = nums.sort((currentNum, nextNum) => {
+    return currentNum - nextNum;
+});
+
+// Create a variable that stores the sorted userArray. In your callback function, return the difference between the current object's age and the next object's age
+
+const userArray = users.sort((currentObj, nextObj) => {
+    return currentObj.age - nextObj.age;
+});
+
+// Create a variable that stores the sorted users array and sorts the objects by name - hint (all letter characters have a number that you can pull with JS)
+
+// console.log(userArray);
+
+// console.log(sorted);

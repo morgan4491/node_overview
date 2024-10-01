@@ -3,11 +3,23 @@ const mathTools = {
     num2: 10,
     sum: function() {
         // return the sum of num1 and num2
+
+        const nested = () => {
+            console.log('nested', this.num1);
+            const moreNested = () => {
+                console.log('more nested', this.num2);
+            };
+
+            moreNested();
+        }
+
+        nested();
+
         return this.num1 + this.num2;
     },
-    sum() {                             // This sum() is the same as writing out sum: function()
-        return this.num1 + this.num2;
-    },
+    // sum() {                             // This sum() is the same as writing out sum: function()
+    //     return this.num1 + this.num2;
+    // },
     difference: function() {
         // return the difference of num1 and num2
         return this.num1 - this.num2;

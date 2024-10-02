@@ -1,76 +1,74 @@
-const fs = require('fs');
-const command = process.argv[2];
-const studentName = process.argv[3];
+const inquirer = require('inquirer');
+
+const languages = [
+    {
+        id: 1,
+        name: 'JS'
+    },
+    {
+        id: 2,
+        name: 'Python'
+    }
+];
 
 
-
-
-function spinWheel() {
-    fs.readFile('./names.txt', 'utf8', (error, data) => {
-        if(error) {
-            return console.log(error);
-        }
-        const names = data.split('\n');
-        let cycleAmount = 30;
-
-        const cycle = setInterval(() => {
-            const ranNum = Math.random();
-            const index = Math.floor(ranNum * names.length);
-            const ranName = names[index];
-
-            console.clear();
-
-            cycleAmount--;
-
-            if (cycleAmount === 0) {
-                clearInterval(cycle);
-
-                console.log(`------------\n${ranName}, you are the lucky contestant!\n------------`);
-            }   else {
-                console.log(ranName);
+const promise = inquirer.prompt([
+    {
+        message: 'Please type your name',
+        name: 'userName',
+        type: 'input'
+    },
+    {
+        message: 'Please type your age',
+        name: 'userAge',
+        type:'input',
+        validate: function(value) {
+            if(isNaN(value)) {
+                return 'You must type a number value'
             }
-
-        }, 75);
-    });
-}
-
-
-function addName() {
-    fs.appendFile('./names.txt', '\n' + studentName, (error) => {
-        if (error) {
-            return console.log(error);
+            
+            return true;
         }
 
-        console.log('Name addded successfully');
-    });
-}
+    },
+    {
+        message: 'Please choose your favorite programming language',
+        name: 'programmingLanguage',
+        type: 'list',
+        choices: languages.map((languageObj) => {
+            return {
+                name: languageObj.name,
+                value: languageObj.id
+            }
+        })
+    },
+    {
+        message: 'Please choose your software license',
+        name: 'softwareLicense',
+        type: 'list',
+        choices: [
+            {
+                name: 'Academic Free License v3.0',
+                value: 'AFL-3.0'
+            },
+            {
+                name: 'BSD 3-clause "New" or "Revised" license',
+                value: 'BSD-3-Clause'
+            },
+            {
+                name: 'GNU General Public License v2.0',
+                value: 'GPL-2.0'
+            }
+        ]
+    },
+    {
+        message: 'Please select your favorite food categories',
+        name: 'foodCategory',
+        type: 'checkbox',
+        choices: ['American', 'Chinese', 'Mexican', 'Korean', 'Italian']
+    }
+]);
 
-function welcomeMessage() {
-    console.log(`
-        -------------
-        Welcome to the Random Name Wheel!
-
-        To use this app, type in one of the options:
-        - spin -- This will spin the wheel
-        - add -- This adds a name to the list
-
-        -------------
-    `)
-}
-
-
-switch(command) {
-    case 'add':
-        addName();
-        break;
-    case 'spin':
-        spinWheel();
-}
-
-
-
-// if (command === 'add') {
-//     addName();
-// } else if (command === 'spin') {
-//     spinWheel();
-// }
+promise.then((answerObj) => {
+    console.log(answerObj);
+});

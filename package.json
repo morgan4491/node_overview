@@ -2,6 +2,7 @@
   "name": "node_overview",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "dependencies": {
     "figlet": "^1.7.0",
     "inquirer": "^8.2.6"
